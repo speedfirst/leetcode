@@ -1,0 +1,4 @@
+leetcode
+========
+
+speedfirst' leetcode solution
