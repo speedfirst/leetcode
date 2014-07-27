@@ -1,4 +1,4 @@
-namespace DistinctSebsequence {
+namespace DistinctSebsequences {
 	class Solution {
 	public:
 	    int numDistinct(string S, string T) {
