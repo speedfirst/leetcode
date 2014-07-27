@@ -1,4 +1,4 @@
-namespace UniqueBinarySearchTree {
+namespace UniqueBinarySearchTrees {
 	class Solution {
 	public:
 	    int numTrees(int n) {
