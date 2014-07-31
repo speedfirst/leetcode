@@ -1,0 +1,39 @@
+namespace FlattenBinaryTreeToLinkedList {
+  class Solution {
+  public:
+  
+      void doFlatten(TreeNode ** cur, TreeNode * root) {
+          (*cur)->left = root;
+          (*cur) = (*cur)->left;
+          if (root == NULL) {
+              return;
+          }
+          
+          if (root->left) {
+              doFlatten(cur, root->left);
+          }
+          
+          if (root->right) {
+              doFlatten(cur, root->right);
+          }
+          
+      }
+      void flatten(TreeNode *root) {
+          if (root == NULL) {
+              return;
+          }
+          
+          TreeNode dummy(-1);
+          TreeNode * cur = &dummy;
+          doFlatten(&cur, root);
+          cur->left = NULL; // mark the end of list
+          
+          cur = &dummy;
+          while (cur != NULL) {
+              cur->right = cur->left;
+              cur->left = NULL;
+              cur = cur->right;
+          }
+      }
+  };
+}
