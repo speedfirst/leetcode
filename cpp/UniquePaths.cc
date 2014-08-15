@@ -1,4 +1,4 @@
-namespace UniquePath {
+namespace UniquePaths {
     class Solution {
     public:
         int uniquePaths(int m, int n) {
