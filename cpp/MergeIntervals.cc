@@ -1,13 +1,14 @@
 namespace MergeIntervals {
-    struct IntervalComp {
-        bool operator () (Interval interval1, Interval interval2) {
-            return interval1.start < interval2.start;
-        }
-    };
-    
     class Solution {
     public:
     
+        struct IntervalComp {
+            // NOTE, DONOT specify Interval & in the parmater otherwise will get wired compile error
+            bool operator () (Interval interval1, Interval interval2) {
+                return interval1.start < interval2.start;
+            }
+        };
+        
         vector<Interval> merge(vector<Interval> &intervals) {
             
             if (intervals.empty() || intervals.size() == 1) {
