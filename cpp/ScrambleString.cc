@@ -1,5 +1,5 @@
 namespace ScrambleString {
-    // This is the recursive solution
+    // This is the recursive solution, time complexity is O(3^n)
     class Solution1 {
     public:
         bool doIsScramble(const string& s1, int start1, const string& s2, int start2, int len, vector<vector<vector<int> > >&cache) {
@@ -44,6 +44,46 @@ namespace ScrambleString {
             vector<vector<vector<int> > > cache(len + 1, vector<vector<int> >(len + 1, vector<int>(len + 1, -1)));
             
             return doIsScramble(s1, 0, s2, 0, len, cache);
+        }
+    };
+    
+    // 3D dp solution, time complexity O(n^4), space complexity O(n^3)
+    class Solution {
+    public:
+        bool isScramble(string s1, string s2) {
+            if (s1.size() != s2.size()) {
+                return false;
+            }
+            
+            int len = s1.size();
+            if (len == 0) {
+                return true;
+            }
+            
+            if (len == 1) {
+                return s1[0] == s2[0];
+            }
+            
+            vector<vector<vector<bool> > > dp(len + 1, vector<vector<bool> >(len, vector<bool>(len, false)));
+            for (int i = 0; i < len; i++) {
+                for (int j = 0; j < len; j++) {
+                    dp[1][i][j] = (s1[i] == s2[j]);
+                }
+            }
+            
+            for (int k = 2; k <= len; k++) {
+                for (int i = len - k; i >= 0; i--) {
+                    for (int j = len - k; j >= 0; j--) {
+                        for (int m = 1; m < k; m++) {
+                            if ((dp[m][i][j] && dp[k - m][i + m][j + m]) || (dp[m][i][j + k - m] && dp[k - m][i + m][j])) {
+                                dp[k][i][j] = true;
+                            }
+                        }   
+                    }
+                }
+            }
+            
+            return dp[len][0][0];
         }
     };
 }
