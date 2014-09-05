@@ -6,7 +6,7 @@
 namespace ThreeSumClosest {
   class Solution {
   public:
-      int getClosetSum(vector<int> &num, int i, int start, int end, int target) {
+      int getClosestSum(vector<int> &num, int i, int start, int end, int target) {
           
           int j = start;
           int k = end;
@@ -40,7 +40,7 @@ namespace ThreeSumClosest {
           int minDiff = INT_MAX;
           int closetSum;
           for (int i = 0; i < num.size() - 2; i++) {
-              int sum = getClosetSum(num, i, i + 1, num.size() - 1, target);
+              int sum = getClosestSum(num, i, i + 1, num.size() - 1, target);
               if (abs(target - sum) < minDiff) {
                   minDiff = abs(target - sum);
                   closetSum = sum;
