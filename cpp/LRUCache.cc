@@ -1,4 +1,13 @@
 // https://oj.leetcode.com/problems/lru-cache/
+
+// checklist to implement correct LRUCache
+// 1) unordered_map + bi-linked list
+// 2) In the node, you must keep key besides value, therefore when getting a node, you can delete it from map
+// 3) Deal with value update (set to an existing key with a new value)
+// 4) Deal with eviction when max capacity is reached
+// 5) When removing a node, remember to delete it thus the memory is released
+// 6) When using the itertor of a map, "it->second" is the value
+// 7) Remember to update the position of node in the bi-linked list when implementing "set"
 namespace LRUCache {
     class CacheNode {
     public:
