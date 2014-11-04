@@ -70,4 +70,64 @@ namespace SortList {
             return merge(sortedList1, sortedList2);
         }
     };
+    
+    // This solution make use of the movement of "head" in recursion. No "split" is needed here 
+    class Solution2 {
+    public:
+        ListNode * merge(ListNode * head1, ListNode * head2) {
+            ListNode dummy(-1);
+            ListNode * prev = &dummy;
+            
+            while (head1 != NULL && head2 != NULL) {
+                if (head1->val < head2->val) {
+                    prev->next = head1;
+                    head1 = head1->next;
+                } else {
+                    prev->next = head2;
+                    head2 = head2->next;
+                }
+                prev = prev->next;
+            }
+            
+            if (head1 == NULL) {
+                prev->next = head2;
+            }
+            
+            if (head2 == NULL) {
+                prev->next = head1;
+            }
+            
+            return dummy.next;
+        }
+        ListNode * doSortList(ListNode * &head, int len) {
+            if (len == 0 ) {
+                return head;
+            }
+            
+            if (len == 1) {
+                ListNode * tmp = head;
+                head = head->next;
+                tmp->next = NULL;
+                return tmp;
+            }
+            
+            ListNode * part1 = doSortList(head, len / 2);
+            ListNode * part2 = doSortList(head, len - len / 2);
+            return merge(part1, part2);
+        }
+        
+        ListNode *sortList(ListNode *head) {
+            int len = 0;
+            ListNode * cur = head;
+            while (cur != NULL) {
+                len++;
+                cur = cur->next;
+            }
+            
+            return doSortList(head, len);
+        }
+    };
 }
+
+
+
