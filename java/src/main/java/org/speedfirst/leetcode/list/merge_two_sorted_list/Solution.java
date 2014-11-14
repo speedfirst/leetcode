@@ -1,46 +1,61 @@
 package org.speedfirst.leetcode.list.merge_two_sorted_list;
 
-import org.speedfirst.leetcode.basic.ListNode;
-
 /**
  * Created by jiankuan on 11/4/14.
  */
 public class Solution {
-    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
-        if (l1 == null && l2 == null) {
-            return null;
+    public int divide(int dividend, int divisor) {
+        if (dividend == 0) {
+            return 0;
         }
 
-        if (l1 == null) {
-            return l2;
+        if (divisor == 0) {
+            return Integer.MAX_VALUE;
         }
 
-        if (l2 == null) {
-            return l1;
+        if (divisor == 1) {
+            return dividend;
         }
 
-        ListNode cur1 = l1;
-        ListNode cur2 = l2;
-        ListNode ret = new ListNode(-1);
-        ListNode cur = ret;
+        if(divisor==Integer.MIN_VALUE)
+            return 0;
 
-        while (cur1 != null && cur2 != null) {
-            if (cur1.val < cur2.val) {
-                cur.next = cur1;
-                cur1 = cur1.next;
-            } else {
-                cur.next = cur2;
-                cur2 = cur2.next;
+        int res = 0;
+        int additional_one = 0;
+        if(dividend==Integer.MIN_VALUE) {
+            additional_one = 1;
+            dividend += Math.abs(divisor);
+        }
+
+        boolean neg = (((dividend ^ divisor) >>> 31) == 1);
+        dividend = Math.abs(dividend);
+        divisor = Math.abs(divisor);
+
+        if (dividend < divisor) {
+            return 0;
+        }
+
+        int digit = 0;
+        while ((dividend >> digit) >= divisor) {
+            digit++;
+        }
+        digit--;
+
+        while (digit >= 0) {
+            int tmp = (divisor << digit);
+            digit--;
+            res <<= 1;
+            if (tmp <= dividend) {
+                res += 1;
+                dividend -= tmp;
             }
-            cur = cur.next;
         }
+        res += additional_one;
+        return (neg? -res : res);
+    }
 
-        if (cur1 == null) {
-            cur.next = cur2;
-        } else {
-            cur.next = cur1;
-        }
-
-        return ret.next;
+    public static void main(String[] args) {
+        Solution s = new Solution();
+        System.out.println(s.divide(-2147483648, -1109186033));
     }
 }
