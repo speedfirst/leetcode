@@ -5,7 +5,7 @@ private:
 public:
     void push(int x) {
         S.push(x);
-        if (MIN_S.empty() || x <= MIN_S.top()) {
+        if (MIN_S.empty() || x <= MIN_S.top()) { // NOTE: the "=" here is very important to keep sync between S and MIN_S
             MIN_S.push(x);
         }
     }
