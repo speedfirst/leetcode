@@ -8,6 +8,7 @@ public:
     char myBuf[4];
     int myBufStart = 0;
     int myBufLen = 0;
+    bool eof = false;
     
     /**
      * @param buf Destination buffer
@@ -17,7 +18,6 @@ public:
     int read(char *buf, int n) {
         int readBytes = 0;
         int bufStart = 0;
-        bool eof = false;
         while (!eof && readBytes < n) {
             if (myBufLen == 0) {
                 myBufLen = read4(myBuf);
