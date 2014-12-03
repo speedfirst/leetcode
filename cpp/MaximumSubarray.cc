@@ -4,72 +4,45 @@ namespace MaximumSubarray {
     class Solution {
     public:
         int maxSubArray(int A[], int n) {
-            
-            int sum = 0;
-            int max = INT_MIN;
-            for (int i = 0; i < n; i++) {
-                
-                if (sum < 0) {
-                    sum = A[i];
-                } else {
-                    sum += A[i];
-                }
-                
-                if (sum > max) {
-                    max = sum;
-                }
+            if (n == 0) return 0;
+            int maxSum = A[0], maxSoFar = A[0];
+            for (int i = 1; i < n; i++) {
+                maxSoFar = max(maxSoFar + A[i], A[i]);
+                maxSum = max(maxSum, maxSoFar);
             }
-            
-            return max;
-            
+            return maxSum;
         }
     };
     
     // Divide & Conquer Solution, O(nLog(n))
-    class Solution1 {
+    class Solution {
     public:
-        int maxCrossSubArray(int A[], int left, int mid, int right) {
-            int maxLeftSum = INT_MIN;
-            int maxRightSum = INT_MIN;
+        int findMaxSub(int A[], int L, int R) {
+            if (L > R) return INT_MIN;
             
-            // calc left sum
+            int mid = ((R - L) >> 2) + L;
+            int maxLeft = findMaxSub(A, L, mid - 1);
+            int maxRight = findMaxSub(A, mid + 1, R);
+            
+            int maxMid2Left = 0;
             int sum = 0;
-            for (int i = mid; i >= left; i--) {
+            for (int i = mid - 1; i >= L; i--) {
                 sum += A[i];
-                if (sum > maxLeftSum) {
-                    maxLeftSum = sum;
-                }
+                maxMid2Left = max(sum, maxMid2Left);
             }
             
-            // calc right sum
+            int maxMid2Right = 0;
             sum = 0;
-            for (int i = mid + 1; i <= right; i++) {
+            for (int i = mid + 1; i <= R; i++) {
                 sum += A[i];
-                if (sum > maxRightSum) {
-                    maxRightSum = sum;
-                }
+                maxMid2Right = max(sum, maxMid2Right);
             }
             
-            return maxLeftSum + maxRightSum;
-        }
-        
-        int maxOneSideSubArray(int A[], int left, int right) {
-            if (left == right) {
-                return A[left];
-            }
-            
-            int mid = (left + right) / 2;
-            
-            return max(maxCrossSubArray(A, left, mid, right),
-                    max(maxOneSideSubArray(A, left, mid), maxOneSideSubArray(A, mid + 1, right)));
+            return max(maxMid2Left + A[mid] + maxMid2Right, max(maxLeft, maxRight));
         }
         
         int maxSubArray(int A[], int n) {
-            if (n == 0) {
-                return 0;
-            }
-            
-            return maxOneSideSubArray(A, 0, n - 1);
+            return findMaxSub(A, 0, n - 1);
         }
     };
 }
