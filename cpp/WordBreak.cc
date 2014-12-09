@@ -20,6 +20,28 @@ namespace WordBreak {
         }
     };
     
+    // 1-D DP, time complexity O(n^2), space complexity O(n)
+    class Solution {
+    public:
+        bool wordBreak(string s, unordered_set<string> &dict) {
+            vector<bool> dp(s.size() + 1, false);
+            dp[0] = true;
+            for (int i = 1; i <= s.size(); i++) {
+                int len = 1;
+                while (i - len >= 0) {
+                    if (dp[i - len] && dict.find(s.substr(i - len, len)) != dict.end())  {
+                        dp[i] = true;
+                        break;
+                    }
+                    len++;
+                }
+            }
+            
+            return dp[s.size()];
+        }
+    };
+    
+    // 2-D dp
     class Solution {
     public:
         pair<int, int> findMinLenAndMaxLen(unordered_set<string> &dict) {
