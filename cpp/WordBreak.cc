@@ -1,5 +1,25 @@
 // https://oj.leetcode.com/problems/word-break/
 namespace WordBreak {
+    // recursive solution, will Time Limit Exceeded in OJ
+    class Solution {
+    public:
+        bool doWordBreak(string &s, int start, unordered_set<string> &dict) {
+            if (start == s.size()) return true;
+            for (unordered_set<string>::iterator it = dict.begin(); it != dict.end(); it++) {
+                const string& word = *it;
+                if (start + word.size() > s.size()) continue;
+                if (s.substr(start, word.size()) == word && doWordBreak(s, start + word.size(), dict)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        
+        bool wordBreak(string s, unordered_set<string> &dict) {
+            return doWordBreak(s, 0, dict);
+        }
+    };
+    
     class Solution {
     public:
         pair<int, int> findMinLenAndMaxLen(unordered_set<string> &dict) {
