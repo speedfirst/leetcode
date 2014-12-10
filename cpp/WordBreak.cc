@@ -45,7 +45,7 @@ namespace WordBreak {
     class Solution {
     public:
         bool wordBreak(string s, unordered_set<string> &dict) {
-            vector<bool> dp(s.size(), false);
+            vector<bool> dp(s.size() + 1, false);
             dp[0] = true;
             for (int i = 1 ; i <= s.size(); i++) {
                 if (dp[i - 1]) {
