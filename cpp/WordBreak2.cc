@@ -1,84 +1,43 @@
-namespace WorkBreak2 {
-  class Solution {
-  public:
-      
-      void findall(vector<vector<int> > &prevs, int endPos, string s, vector<string> &res, string curStr) {
-          
-          if (endPos == 0) {
-              res.push_back(curStr);
-              return;
-          }
-          
-          vector<int> & prev = prevs[endPos];
-          
-          for (vector<int>::iterator it = prev.begin(); it != prev.end(); it++) {
-              int prevPos = *it;
-              string str = s.substr(prevPos, endPos - prevPos);
-              
-              string origStr = curStr;
-              if (curStr != "") {
-                  curStr = str + " " + curStr;
-              } else {
-                  curStr = str;
-                  
-              }
-              findall(prevs, prevPos, s, res, curStr);
-              curStr = origStr;
-          }
-      }
-      
-      
-      vector<string> wordBreak(string s, unordered_set<string> &dict) {
-          
-          vector<string> res;
-          if (s.empty() || dict.empty()) {
-              return res;
-          }
-          int minLen = INT_MAX;
-          int maxLen = 0;
-          
-          for(unordered_set<string>::iterator it = dict.begin(); it != dict.end(); it++) {
-              string str = *it;
-              if (str.length() > maxLen) {
-                  maxLen = str.length();
-              }
-              
-              if (str.length() < minLen) {
-                  minLen = str.length();
-              }
-          }
-          
-          int strlen = s.length();
-          vector<bool> dp(strlen + 1);
-          dp[0] = true;
-          vector<vector<int> > prevs(strlen + 1);
-          for (int i = 1; i <= strlen; i++) {
-              if (dp[i - 1] == false) {
-                  continue;
-              }
-              
-              for (int len = minLen; len <= maxLen; len++) {
-                  int endPos = i + len;
-                  if (endPos > strlen + 1) {
-                      break;
-                  }
-                  
-                  string subStr = s.substr(i - 1, len);
-                  if (dict.find(subStr) != dict.end()) {
-                      dp[endPos - 1] = true;
-                      prevs[endPos - 1].push_back(i - 1);
-                  }
-              }
-          }
-          
-          // can't be break properly
-          if (dp[strlen] == false) {
-              return res;
-          }
-          
-          findall(prevs, strlen, s, res, "");
-          return res;
-          
-      }
-  };
-}
+// https://oj.leetcode.com/problems/word-break-ii/
+// solution based on 1-D dp
+class Solution {
+public:
+    void genStrings(string &s, vector<vector<int> > &bt, int cur, vector<string>& res, string curstr) {
+        if (cur == 0) {
+            res.push_back(curstr);
+            return;
+        }
+
+        vector<int> preIdxs = bt[cur];
+        for (int i = 0; i < preIdxs.size(); i++) {
+            genStrings(s, bt, preIdxs[i], res, s.substr(preIdxs[i], cur - preIdxs[i]) + " " + curstr);
+        }
+    }
+
+    vector<string> wordBreak(string s, unordered_set<string> &dict) {
+        vector<bool> dp(s.size() + 1, false);
+        vector<vector<int> > bt(s.size() + 1, vector<int>());
+        dp[0] = true;
+        bt[0].push_back(-1); // mark end
+        for (int i = 1 ; i <= s.size(); i++) {
+            if (dp[i - 1]) {
+                for (unordered_set<string>::iterator it = dict.begin(); it != dict.end(); it++) {
+                    const string& word = *it;
+                    if (i + word.size() - 1 <= s.size() && s.substr(i - 1, word.size()) == word) {
+                        dp[i + word.size() - 1] = true;
+                        bt[i + word.size() - 1].push_back(i - 1);
+                    }
+                }
+            }
+        }
+
+        // generate result by backtrace
+        vector<string> res;
+        string curstr = "";
+        vector<int> preIdxs = bt[s.size()];
+        for (int i = 0; i < preIdxs.size(); i++) {
+            genStrings(s, bt, preIdxs[i], res, s.substr(preIdxs[i], s.size() - preIdxs[i]));
+        }
+        return res;
+    }
+};
