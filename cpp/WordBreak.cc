@@ -41,6 +41,26 @@ namespace WordBreak {
         }
     };
     
+    // another 1-D dp, cal in different direction
+    class Solution {
+    public:
+        bool wordBreak(string s, unordered_set<string> &dict) {
+            vector<bool> dp(s.size(), false);
+            dp[0] = true;
+            for (int i = 1 ; i <= s.size(); i++) {
+                if (dp[i - 1]) {
+                    for (unordered_set<string>::iterator it = dict.begin(); it != dict.end(); it++) {
+                        const string& word = *it;
+                        if (i + word.size() - 1 <= s.size() && s.substr(i - 1, word.size()) == word) {
+                            dp[i + word.size() - 1] = true;
+                        }
+                    }
+                }
+            }
+            return dp[s.size()];
+        }
+    };
+    
     // 2-D dp, time complexity O(n^3), space complexity O(n^2)
     class Solution {
     public:
