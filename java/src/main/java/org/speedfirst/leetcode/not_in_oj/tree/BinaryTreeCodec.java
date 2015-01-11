@@ -39,6 +39,8 @@ public class BinaryTreeCodec {
             }
             idx++;
 
+            if (idx == secs.length) break;
+
             valStr = secs[idx];
             if (valStr.equals("#")) {
                 cur.right = null;
