@@ -1,4 +1,4 @@
-package org.speedfirst.leetcode.not_in_oj;
+package org.speedfirst.leetcode.not_in_oj.tree;
 
 import org.speedfirst.leetcode.basic.TreeNode;
 
@@ -23,6 +23,7 @@ public class BinaryTreeCodec {
 
         String[] secs = raw.split(",");
         TreeNode root = new TreeNode(Integer.valueOf(secs[0]));
+        root.parent = null;
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
         int idx = 1;
@@ -33,6 +34,7 @@ public class BinaryTreeCodec {
                 cur.left = null;
             } else {
                 cur.left = new TreeNode(Integer.valueOf(valStr));
+                cur.left.parent = cur;
                 queue.offer(cur.left);
             }
             idx++;
@@ -42,6 +44,7 @@ public class BinaryTreeCodec {
                 cur.right = null;
             } else {
                 cur.right = new TreeNode(Integer.valueOf(valStr));
+                cur.right.parent = cur;
                 queue.offer(cur.right);
             }
             idx++;

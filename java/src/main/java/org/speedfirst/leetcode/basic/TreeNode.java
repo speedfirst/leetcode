@@ -10,10 +10,13 @@ public class TreeNode {
 
     public TreeNode right;
 
+    public TreeNode parent;
+
     public TreeNode(int val) {
         this.val = val;
         this.left = null;
         this.right = null;
+        this.parent = null;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package org.speedfirst.leetcode.not_in_oj;
+package org.speedfirst.leetcode.not_in_oj.tree;
 
 import org.speedfirst.leetcode.basic.TreeNode;
 
