@@ -1,9 +1,9 @@
-package org.speedfirst.leetcode.calc.valid_number;
+package org.speedfirst.leetcode.math;
 
 /**
  * Created by jiankuan on 12/4/14.
  */
-public class Solution {
+public class ValidNumber {
     enum State {
         Start,
         Symbol,
@@ -144,7 +144,7 @@ public class Solution {
     }
 
     public static void main(String[] args) {
-        Solution sol = new Solution();
+        ValidNumber sol = new ValidNumber();
         boolean res = sol.isNumber(".2e81");
         System.out.println(res);
     }

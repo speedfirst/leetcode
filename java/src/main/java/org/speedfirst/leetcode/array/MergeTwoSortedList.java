@@ -1,9 +1,9 @@
-package org.speedfirst.leetcode.list.merge_two_sorted_list;
+package org.speedfirst.leetcode.array;
 
 /**
  * Created by jiankuan on 11/4/14.
  */
-public class Solution {
+public class MergeTwoSortedList {
     public int divide(int dividend, int divisor) {
         if (dividend == 0) {
             return 0;
@@ -55,7 +55,7 @@ public class Solution {
     }
 
     public static void main(String[] args) {
-        Solution s = new Solution();
+        MergeTwoSortedList s = new MergeTwoSortedList();
         System.out.println(s.divide(-2147483648, -1109186033));
     }
 }

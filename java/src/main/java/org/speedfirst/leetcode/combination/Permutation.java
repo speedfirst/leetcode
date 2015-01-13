@@ -1,4 +1,4 @@
-package org.speedfirst.leetcode.not_in_oj;
+package org.speedfirst.leetcode.combination;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ public class Permutation {
     }
 
     public List<List<Integer>> permutation(List<Integer> arr) {
-        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        List<List<Integer>> res = new ArrayList<>();
         doPermutation(0, arr, res);
         return res;
     }
@@ -29,7 +29,7 @@ public class Permutation {
 
     private void doPermutation(int cur, List<Integer> arr, List<List<Integer>> res) {
         if (cur == arr.size()) {
-            res.add(new ArrayList<Integer>(arr));
+            res.add(new ArrayList<>(arr));
             return;
         }
 
