@@ -47,7 +47,7 @@ public class GetKthMagicNumber {
 
     private int[] buffer = new int[3];
 
-    private Queue getQueueWithMinValue(Queue<Integer> q3, Queue<Integer> q5, Queue<Integer> q7) {
+    private Queue<Integer> getQueueWithMinValue(Queue<Integer> q3, Queue<Integer> q5, Queue<Integer> q7) {
         buffer[0] = q3.peek();
         buffer[1] = q5.peek();
         buffer[2] = q7.peek();
