@@ -1,0 +1,20 @@
+Spotify has built several real-time pipelines using Apache Storm for use cases like ad targeting, music recommendation, and data visualization. Each of these real-time pipelines have Apache Storm wired to different systems like Kafka, Cassandra, Zookeeper, and other sources and sinks. Building applications for over 50 million active users globally requires perpetual thinking about scalability to ensure high availability and good system performance.
+
+Thinking Scalability
+
+Scalability is the ability of the software to keep up the performance even under increasing load by adding resources linearly. But achieving scalability requires more than just adding resources and tuning performance. To achieve scalability one needs to think holistically about software design, quality, maintainability and performance aspects. When we build applications we think about scalability in the following way:
+
+Necessary conditions for Scalability
+Software has sound architecture and high quality
+Software is easy to release, monitor and tweak.
+Software performance can keep up with additional load by adding resources linearly.
+Scalability in Storm
+
+So what does scaling Storm pipelines entail? I'll work through an example of our real-time personalization Storm pipeline to elaborate different aspects of scalability.
+
+
+In our personalization pipeline we have a Kafka cluster with topics for different kinds of events like song completion and ad impressions. Our personalization Storm topology subscribes to different user events, decorates the event with entity metadata (like genre of a song) which is read from Cassandra, then groups the events per user and computes different user attributes by some algorithmic combination of aggregation and derivation. These user attributes then get written to Cassandra which in turn gets called by several backend services to personalize user experience.
+
+Design and Quality
+
+When we added new features to our personalization pipeline over time our topologies started to look very complicated for performance tuning and event flow debugging. However having high test coverage gave us the confidence in the quality of our code to rapidly refactor the topologies and make them tenable.
